@@ -1,0 +1,9 @@
+env.app_host=localhost
+env.app_env=dev
+env.app_debug=true
+env.app_key=application-key-should-be-here
+
+env.db_host=localhost
+env.db_database=test
+env.db_username=root
+env.db_password=

@@ -1,0 +1,36 @@
+<project name="Test-API" default="deploy" basedir="./">
+    <property name="source" value="protected" />
+    <property environment="env" />
+    <property name="phpmd" value="bin/phpmd" />
+
+    <!-- Load our configuration -->
+    <property file="./build.properties" />
+
+    <target name="configure">
+        <copy file=".env.template" tofile=".env" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="APP_HOST" value="${env.app_host}" />
+                    <token key="APP_ENV" value="${env.app_env}" />
+                    <token key="APP_DEBUG" value="${env.app_debug}" />
+                    <token key="APP_KEY" value="${env.app_key}" />
+                    <token key="DB_HOST" value="${env.db_host}" />
+                    <token key="DB_DATABASE" value="${env.db_database}" />
+                    <token key="DB_USERNAME" value="${env.db_username}" />
+                    <token key="DB_PASSWORD" value="${env.db_password}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+
+    <target name="migrate">
+        <exec command="php artisan migrate --force" checkreturn="true" />
+    </target>
+
+    <target name="composer">
+        <exec command="php bin/composer install" checkreturn="true" />
+    </target>
+
+    <target name="build" depends="composer,migrate" />
+
+</project>
